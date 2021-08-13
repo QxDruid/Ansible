@@ -1,0 +1,24 @@
+all:
+  children:
+    slave_servers:
+      hosts:
+        server2:
+          ansible_connection: ssh
+          ansible_port: 9002
+          ansible_host: 192.168.10.24
+          ansible_user: root
+        server3:
+          ansible_connection: ssh
+          ansible_port: 9003
+          ansible_host: 192.168.10.24
+          ansible_user: root
+          ansible_ssh_private_key_file: /home/savelyev/.ssh/id_ed25519
+    master_servers:
+      hosts:
+        server1:
+          ansible_connection: ssh
+          ansible_port: 22
+          ansible_host: 192.168.10.24
+          ansible_user: root
+          ansible_ssh_private_key_file: /home/savelyev/.ssh/id_ed25519
+
