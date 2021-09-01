@@ -1,0 +1,40 @@
+---
+- name: Create database user
+  mysql_user:
+    login_user: root
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    login_password: "{{root_password}}"
+    name: "{{db_new_user}}"
+    host: "%"
+    password: "{{db_new_password}}"
+    priv: '*.*:ALL'
+    resource_limits:
+      MAX_QUERIES_PER_HOUR: 0
+      MAX_CONNECTIONS_PER_HOUR: 0
+    state: present
+
+- name: Create databases
+  community.mysql.mysql_db:
+    login_user: root
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    login_password: "{{root_password}}"
+    name: "{{ item }}"
+    state: present
+  loop:
+    - auth
+    - world
+    - characters
+
+- name: Set mysql user privileges
+  mysql_user:
+    login_user: root
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    login_password: "{{root_password}}"
+    name: "{{wotlk_db_user}}"
+    host: "%"
+    priv: "{{item}}.*:ALL"
+    state: present
+  loop:
+    - auth
+    - world
+    - characters
