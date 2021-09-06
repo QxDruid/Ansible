@@ -1,0 +1,7 @@
+---
+- name: Create a new database with name nextcloud
+  community.mysql.mysql_db:
+    name: "{{ db_name }}"
+    encoding: utf8mb4
+    collation: utf8mb4_general_ci
+    state: present

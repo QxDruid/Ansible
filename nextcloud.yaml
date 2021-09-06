@@ -1,0 +1,10 @@
+- name: install mariadb
+  hosts:
+  - server1
+  vars_files:
+    ./varfile.yaml
+  tasks:
+  - include_role:
+      name: nextcloud
+      tasks_from: install
+  become: yes
