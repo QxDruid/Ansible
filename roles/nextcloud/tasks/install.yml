@@ -8,6 +8,7 @@
     - nginx
     - mariadb-client 
     - libapache2-mod-php7.4
+    - php7.4-fpm
     - php7.4-gd 
     - php7.4-mysql 
     - php7.4-curl 
@@ -46,4 +47,15 @@
     dest: /etc/nginx/sites-enabled/nextcloud
     state: link
 
+- name: Change file ownership, group and permissions
+  ansible.builtin.file:
+    path: /var/www/nextcloud
+    owner: www-data
+    group: www-data
+    mode: '0744'
 
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: true
