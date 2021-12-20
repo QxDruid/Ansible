@@ -1,6 +1,6 @@
 - name: install mariadb
   hosts:
-  - server1
+  - mariadb
   tasks:
   - include_role:
       name: mariadb

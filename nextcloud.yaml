@@ -1,17 +1,6 @@
-- name: install mariadb
-  hosts:
-  - server1
-  vars_files:
-    ./varfile.yaml
-  tasks:
-  - include_role:
-      name: nextcloud
-      tasks_from: install
-  become: yes
-
 - name: creation User and Database
   hosts:
-  - server1
+  - mariadb
   vars_files:
     ./varfile.yaml
   tasks:

@@ -23,16 +23,34 @@
       state: started
       enabled: yes
 
+- name: Try to connect mysql without password
+  mysql_user: 
+    name: root
+    host: localhost
+    check_implicit_admin: yes
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  register: nopasswd_check
+  ignore_errors: yes
+  become: yes
+
+- name: Nopasswd connection check results
+  debug:
+    var: nopasswd_check
+
 - name: Update MariaDB root password
   mysql_user: 
     name: root
     host: "{{ item }}"
     password: "{{ db_root_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+    check_implicit_admin: yes
+    state: present
   with_items:
     - 127.0.0.1
     - ::1
     - localhost
+  when: nopasswd_check.failed == false
+
 
 - name: Allow remote hosts to connect
   lineinfile:

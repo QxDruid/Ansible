@@ -6,5 +6,4 @@
     host: "%"
     name: "{{ db_user }}"
     password: "{{ db_user_password }}"
-    priv: 'nextcloud.*:ALL'
     state: present
